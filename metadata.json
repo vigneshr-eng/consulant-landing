@@ -1,0 +1,6 @@
+{
+  "name": "Virtual Consultation Hub",
+  "description": "A premium, fully responsive React application for virtual consultations and effective meetings, based on custom Figma designs and smooth modern animations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

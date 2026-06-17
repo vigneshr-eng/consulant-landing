@@ -16,7 +16,18 @@ export default function Header() {
       doScroll();
     } else {
       navigate('/');
-      setTimeout(doScroll, 350);
+      setTimeout(doScroll, 400);
+    }
+  };
+
+  const scrollToContact = () => {
+    const doScroll = () =>
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    if (isHome) {
+      doScroll();
+    } else {
+      navigate('/');
+      setTimeout(doScroll, 400);
     }
   };
 
@@ -56,16 +67,17 @@ export default function Header() {
         <nav className="hidden lg:flex flex-1 items-center justify-center gap-1.5 bg-transparent p-0">
           {navItems.map((item) => {
             const active = isActive(item.path);
-            if (item.name === 'Feature') {
+            if (item.name === 'Feature' || item.name === 'Contact Us') {
+              const handler = item.name === 'Contact Us' ? scrollToContact : scrollToFeatures;
               return (
                 <button
                   key={item.name}
-                  onClick={scrollToFeatures}
+                  onClick={handler}
                   className="relative px-4 py-1.5 text-xs font-bold rounded-full transition-all duration-300"
                   style={{
-                    background: active ? '#eef2ff' : 'rgba(241,245,249,0.6)',
-                    color: active ? '#284AA3' : '#475569',
-                    border: active ? '1px solid #c7d2fe' : '1px solid transparent',
+                    background: 'rgba(241,245,249,0.6)',
+                    color: '#475569',
+                    border: '1px solid transparent',
                   }}
                 >
                   <span className="relative z-10">{item.name}</span>
@@ -125,11 +137,12 @@ export default function Header() {
           >
             <div className="p-4 flex flex-col gap-2 shadow-xl">
               {navItems.map((item) => {
-                if (item.name === 'Feature') {
+                if (item.name === 'Feature' || item.name === 'Contact Us') {
+                  const handler = item.name === 'Contact Us' ? scrollToContact : scrollToFeatures;
                   return (
                     <button
                       key={item.name}
-                      onClick={() => { setIsOpen(false); scrollToFeatures(); }}
+                      onClick={() => { setIsOpen(false); handler(); }}
                       className="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 font-medium text-base text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                     >
                       <span className="font-medium text-base">{item.name}</span>

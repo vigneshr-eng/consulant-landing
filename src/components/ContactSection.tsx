@@ -47,26 +47,65 @@ export default function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{ phone?: string; email?: string }>({});
 
   const charCount = formData.message.length;
 
+  const validatePhone = (value: string) => {
+    if (!value) return undefined;
+    const digits = value.replace(/\D/g, '');
+    if (digits.length !== 10) return 'Phone number must be exactly 10 digits';
+    return undefined;
+  };
+
+  const validateEmail = (value: string) => {
+    if (!value) return undefined;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Enter a valid email address';
+    return undefined;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name } = e.target;
+    let value = e.target.value;
+
+    // Phone: digits only, max 10
+    if (name === 'phone') {
+      value = value.replace(/\D/g, '').slice(0, 10);
+      setFieldErrors((prev) => ({ ...prev, phone: validatePhone(value) }));
+    }
+
+    if (name === 'email') {
+      setFieldErrors((prev) => ({ ...prev, email: validateEmail(value) }));
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const phoneErr = validatePhone(formData.phone);
+    const emailErr = validateEmail(formData.email);
+    if (phoneErr || emailErr) {
+      setFieldErrors({ phone: phoneErr, email: emailErr });
+      return;
+    }
     setSubmitting(true);
     setError(false);
-    const payload = new FormData();
-    payload.append('Full Name', formData.fullName);
-    payload.append('Location', formData.location);
-    payload.append('Phone', formData.phone);
-    payload.append('Email', formData.email);
-    payload.append('Type', selectedType === 'expert' ? 'Industry Expert' : 'Business');
-    payload.append('Message', formData.message);
     try {
-      await fetch(SHEET_URL, { method: 'POST', body: payload, mode: 'no-cors' });
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        // text/plain avoids CORS preflight; Apps Script reads e.postData.contents
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          location: formData.location,
+          phone: formData.phone,
+          email: formData.email,
+          clientBusiness: selectedType === 'expert' ? 'Industry Expert' : 'Business',
+          message: formData.message,
+        }),
+        mode: 'no-cors',
+      });
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
@@ -197,20 +236,36 @@ export default function ContactSection() {
                 <div className="flex flex-col gap-1.5">
                   <label className="text-sm font-medium text-slate-700">Phone Number</label>
                   <input
-                    type="tel" name="phone" value={formData.phone}
-                    onChange={handleChange} placeholder="+44 7000 000000"
-                    className="w-full rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#284AA3]/30 transition"
-                    style={{ border: '1px solid #E2E8F0', background: '#F8FAFC' }}
+                    type="tel" name="phone" value={formData.phone} inputMode="numeric"
+                    onChange={handleChange} placeholder="10-digit mobile number" maxLength={10}
+                    className="w-full rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 transition"
+                    style={{
+                      border: fieldErrors.phone ? '1px solid #EF4444' : '1px solid #E2E8F0',
+                      background: fieldErrors.phone ? '#FFF5F5' : '#F8FAFC',
+                    }}
                   />
+                  {fieldErrors.phone && (
+                    <p className="text-[11px] text-red-500 flex items-center gap-1">
+                      <span>⚠</span> {fieldErrors.phone}
+                    </p>
+                  )}
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-sm font-medium text-slate-700">Email Address</label>
                   <input
                     type="email" name="email" value={formData.email}
                     onChange={handleChange} placeholder="you@example.com" required
-                    className="w-full rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#284AA3]/30 transition"
-                    style={{ border: '1px solid #E2E8F0', background: '#F8FAFC' }}
+                    className="w-full rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 transition"
+                    style={{
+                      border: fieldErrors.email ? '1px solid #EF4444' : '1px solid #E2E8F0',
+                      background: fieldErrors.email ? '#FFF5F5' : '#F8FAFC',
+                    }}
                   />
+                  {fieldErrors.email && (
+                    <p className="text-[11px] text-red-500 flex items-center gap-1">
+                      <span>⚠</span> {fieldErrors.email}
+                    </p>
+                  )}
                 </div>
               </div>
 

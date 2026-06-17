@@ -465,7 +465,9 @@ export default function Home() {
         </div>
 
         <NewsletterCTA />
-        <ContactSection />
+        <div id="contact">
+          <ContactSection />
+        </div>
 
       </div>
     </>

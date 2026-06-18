@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, LogIn, UploadCloud, LayoutList, ArrowRight, Briefcase, Award, Calendar, Network, Star, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import expertImg from '../assests/becomeexpert.jpeg';
@@ -104,6 +105,10 @@ const FEATURES = [
 export default function BecomeExpert() {
   const [openFaq, setOpenFaq] = useState<string>('faq1');
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [otpEmail, setOtpEmail] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpSending, setOtpSending] = useState(false);
 
   const scrollCarousel = (dir: 'left' | 'right') => {
     if (!carouselRef.current) return;
@@ -269,6 +274,7 @@ export default function BecomeExpert() {
           </p>
 
           <motion.button
+            onClick={() => setShowRegisterModal(true)}
             whileHover={{ scale: 1.05, backgroundColor: '#1e3a8a' }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: 'spring', stiffness: 320, damping: 20 }}
@@ -639,6 +645,7 @@ export default function BecomeExpert() {
 
             {/* CTA button */}
             <motion.button
+              onClick={() => setShowRegisterModal(true)}
               whileHover={{ scale: 1.04, backgroundColor: '#0D1B35' }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
@@ -906,6 +913,146 @@ export default function BecomeExpert() {
           </div>
         </motion.div>
       </div>
+
+      {/* ── Register Modal ── */}
+      {createPortal(
+        <AnimatePresence>
+          {showRegisterModal && (
+            <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => { setShowRegisterModal(false); setOtpSent(false); setOtpEmail(''); }}
+            style={{
+              position: 'fixed', inset: 0, zIndex: 9999,
+              background: 'rgba(0,0,0,0.45)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              padding: '16px',
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 24 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 24 }}
+              transition={{ type: 'spring', stiffness: 340, damping: 26 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: '#fff',
+                borderRadius: 20,
+                padding: 'clamp(28px, 5vw, 40px)',
+                width: '100%',
+                maxWidth: 420,
+                boxShadow: '0 24px 60px rgba(0,0,0,0.18)',
+                position: 'relative',
+              }}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => { setShowRegisterModal(false); setOtpSent(false); setOtpEmail(''); }}
+                style={{
+                  position: 'absolute', top: 16, right: 16,
+                  width: 32, height: 32, borderRadius: '50%',
+                  background: '#F1F5F9', border: 'none', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: '#64748B', fontSize: 18, lineHeight: 1,
+                }}
+              >
+                ✕
+              </button>
+
+              {/* Heading */}
+              <div style={{ textAlign: 'center', marginBottom: 24 }}>
+                <h2 style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: 22, color: '#1E293B', marginBottom: 6 }}>
+                  Join Bizpole Consult
+                </h2>
+                <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 14, color: '#64748B' }}>
+                  Start your consulting journey from today
+                </p>
+              </div>
+
+              {!otpSent ? (
+                <>
+                  {/* Email input */}
+                  <div style={{ marginBottom: 16 }}>
+                    <label style={{ display: 'block', fontFamily: "'Manrope', sans-serif", fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>
+                      Email id
+                    </label>
+                    <input
+                      type="email"
+                      value={otpEmail}
+                      onChange={(e) => setOtpEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      style={{
+                        width: '100%', boxSizing: 'border-box',
+                        border: '1px solid #E2E8F0', borderRadius: 10,
+                        padding: '12px 14px', fontSize: 14,
+                        color: '#1E293B', background: '#F8FAFC',
+                        outline: 'none', fontFamily: "'Manrope', sans-serif",
+                      }}
+                      onFocus={(e) => (e.target.style.borderColor = '#284AA3')}
+                      onBlur={(e) => (e.target.style.borderColor = '#E2E8F0')}
+                    />
+                  </div>
+
+                  {/* Send Code button */}
+                  <motion.button
+                    onClick={async () => {
+                      if (!otpEmail) return;
+                      setOtpSending(true);
+                      await new Promise((r) => setTimeout(r, 1000));
+                      setOtpSending(false);
+                      setOtpSent(true);
+                    }}
+                    whileHover={otpSending ? {} : { opacity: 0.9 }}
+                    whileTap={otpSending ? {} : { scale: 0.97 }}
+                    disabled={otpSending || !otpEmail}
+                    style={{
+                      width: '100%', height: 48, borderRadius: 10,
+                      background: '#284AA3', color: '#fff',
+                      fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 15,
+                      border: 'none', cursor: otpSending || !otpEmail ? 'not-allowed' : 'pointer',
+                      opacity: otpSending || !otpEmail ? 0.65 : 1,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                      boxShadow: '0 4px 14px rgba(40,74,163,0.30)',
+                    }}
+                  >
+                    {otpSending && (
+                      <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="3" strokeDasharray="32" strokeDashoffset="10" />
+                      </svg>
+                    )}
+                    {otpSending ? 'Sending…' : 'Send Code'}
+                  </motion.button>
+                </>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  style={{ textAlign: 'center', padding: '12px 0' }}
+                >
+                  <div style={{ width: 56, height: 56, borderRadius: '50%', background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 13l4 4L19 7" stroke="#284AA3" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                  <p style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: 16, color: '#1E293B', marginBottom: 6 }}>Code Sent!</p>
+                  <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 13, color: '#64748B' }}>
+                    We've sent an OTP to <strong>{otpEmail}</strong>.<br />Please check your inbox.
+                  </p>
+                </motion.div>
+              )}
+
+              {/* Footer */}
+              <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 13, color: '#94A3B8', textAlign: 'center', marginTop: 20 }}>
+                Already have an account?{' '}
+                <span style={{ color: '#F59E0B', fontWeight: 600, cursor: 'pointer' }}>Sign in</span>
+              </p>
+            </motion.div>
+          </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
 
     </div>
   );

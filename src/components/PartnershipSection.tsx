@@ -105,7 +105,7 @@ export default function PartnershipSection() {
   const row2 = FEATURE_CARDS.slice(3);
 
   return (
-    <section className="relative bg-[#f7f7f9] overflow-hidden w-full">
+    <section id="about" className="relative bg-[#f7f7f9] overflow-hidden w-full">
       {/* Decorative quotation mark */}
       <div
         className="absolute right-0 top-0 bottom-0 flex items-center pointer-events-none select-none"

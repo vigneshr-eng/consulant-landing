@@ -1,4 +1,5 @@
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import logo from '../assests/Artboard 5 copy 13.png';
 
 const NAV_LINKS = [
   { label: 'Home',             path: '/' },
@@ -35,18 +36,7 @@ export default function Footer() {
         }}
       >
         {/* LEFT — Brand */}
-        <span
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontWeight: 500,
-            fontSize: 16,
-            lineHeight: '24px',
-            color: '#FFFFFF',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          Bizpole Consult
-        </span>
+        <img src={logo} alt="Bizpole Consult Logo" style={{ height: 64, width: 'auto', objectFit: 'contain' }} />
 
         {/* CENTER — Navigation */}
         <nav className="flex flex-wrap items-center justify-center gap-6 md:gap-8">

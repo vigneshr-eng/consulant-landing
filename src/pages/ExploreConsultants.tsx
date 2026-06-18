@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Users, BarChart3, Calendar, Lightbulb, TrendingUp,
@@ -333,6 +334,7 @@ const FAQ_BUSINESS = [
    MAIN COMPONENT
 ══════════════════════════════════════ */
 export default function ExploreConsultants() {
+  const navigate = useNavigate();
   const carouselRef = useRef<HTMLDivElement>(null);
   const [activeCategory, setActiveCategory] = useState('Strategy & Planning');
   const [openFaq, setOpenFaq] = useState<string>('b1');
@@ -439,7 +441,7 @@ export default function ExploreConsultants() {
                 </motion.div>
               ))}
             </div>
-            <motion.button whileHover={{ scale: 1.04, backgroundColor: '#0D1B35' }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            <motion.button onClick={() => navigate('/become-expert')} whileHover={{ scale: 1.04, backgroundColor: '#0D1B35' }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               className="flex items-center gap-2 mt-10 self-start" style={{ background: '#284AA3', color: '#fff', borderRadius: 10, padding: '14px 28px', fontSize: 15, fontWeight: 600, border: 'none', cursor: 'pointer' }}>
               Register as Consultant
               <ArrowRightIcon size={17} strokeWidth={2.2} />

@@ -214,12 +214,16 @@ export default function WhyChooseSection({ id }: Props) {
                     </div>
 
                     {/* Overlay image — bottom right */}
-                    <img
-                      src={OVERLAY_SRCS[i]}
-                      alt=""
+                    <div
                       className="absolute bottom-0 right-0 z-20"
-                      style={{ height: '90%', width: 'auto', maxWidth: '52%', objectFit: 'contain', objectPosition: 'right bottom', display: 'block', borderRadius: 12 }}
-                    />
+                      style={{ height: '90%', maxWidth: '52%', borderRadius: 12, overflow: 'hidden' }}
+                    >
+                      <img
+                        src={OVERLAY_SRCS[i]}
+                        alt=""
+                        style={{ height: '100%', width: 'auto', display: 'block' }}
+                      />
+                    </div>
                   </div>
                 );
               })}
@@ -250,12 +254,16 @@ export default function WhyChooseSection({ id }: Props) {
                 </div>
 
                 {/* Overlay image — bottom right */}
-                <img
-                  src={OVERLAY_SRCS[i]}
-                  alt=""
+                <div
                   className="absolute bottom-0 right-0 z-20"
-                  style={{ height: '85%', width: 'auto', maxWidth: '55%', objectFit: 'contain', objectPosition: 'right bottom', display: 'block', borderRadius: 12 }}
-                />
+                  style={{ height: '85%', maxWidth: '55%', borderRadius: 12, overflow: 'hidden' }}
+                >
+                  <img
+                    src={OVERLAY_SRCS[i]}
+                    alt=""
+                    style={{ height: '100%', width: 'auto', display: 'block' }}
+                  />
+                </div>
               </div>
             ))}
           </div>

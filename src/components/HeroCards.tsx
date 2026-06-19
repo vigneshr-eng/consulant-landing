@@ -178,11 +178,7 @@ export default function HeroCards() {
           className="relative flex flex-col gap-5"
           style={{
             width: "80%",
-            background: "rgba(255,255,255,0.15)",
-            border: "1px solid rgba(255,255,255,0.28)",
             borderRadius: 16,
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
             padding: "28px 24px",
           }}
         >

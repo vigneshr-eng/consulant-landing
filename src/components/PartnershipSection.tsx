@@ -105,7 +105,7 @@ export default function PartnershipSection() {
   const row2 = FEATURE_CARDS.slice(3);
 
   return (
-    <section id="about" className="relative bg-[#f7f7f9] overflow-hidden w-full">
+    <section id="about" className="relative bg-white overflow-hidden w-full">
       {/* Decorative quotation mark */}
       <div
         className="absolute right-0 top-0 bottom-0 flex items-center pointer-events-none select-none"
@@ -137,7 +137,7 @@ export default function PartnershipSection() {
         }}
       >
         {/* ── Top Row: heading (left) + description (right) ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center" style={{ gap: '65.18px' }}>
           {/* Left */}
           <div className="flex flex-col gap-5">
             <AboutBadge />
@@ -152,8 +152,14 @@ export default function PartnershipSection() {
           {/* Right — vertically centered */}
           <div className="flex lg:justify-end">
             <p
-              className="max-w-[500px] leading-[1.8] text-[#66789c] lg:text-right"
-              style={{ fontSize: 'clamp(17px, 1.6vw, 22px)' }}
+              className="max-w-[500px] text-[#66789c] lg:text-right"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 400,
+                fontSize: 16,
+                lineHeight: '26px',
+                letterSpacing: 0,
+              }}
             >
               Sometimes it is very difficult to find the right consultant. It
               takes up valuable time for businesses, while some great consultants
@@ -195,15 +201,21 @@ export default function PartnershipSection() {
         {/* ── Bottom Row: description (left) + CTA buttons (right) ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <p
-            className="text-[#66789c] leading-[1.9] max-w-[600px]"
-            style={{ fontSize: 'clamp(16px, 1.8vw, 22px)' }}
+            className="text-[#66789c] max-w-[600px]"
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 400,
+              fontSize: 16,
+              lineHeight: '26px',
+              letterSpacing: 0,
+            }}
           >
             Bizpole Consult integrates both of these gaps on one platform. It
             lets consultants find their clients easily, and it also helps
             businesses quickly connect with the right experts.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center lg:justify-end gap-5">
+          <div className="flex flex-col sm:flex-row justify-center lg:justify-end" style={{ gap: '13.04px' }}>
             <CTAButton label="For Experts →" variant="primary" />
             <CTAButton label="For Businesses →" variant="secondary" />
           </div>

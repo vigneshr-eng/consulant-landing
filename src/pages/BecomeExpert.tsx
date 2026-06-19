@@ -149,77 +149,7 @@ export default function BecomeExpert() {
             style={{ display: 'block' }}
           />
 
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: 'linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 55%)',
-            }}
-          />
 
-          {PROFILE_CARDS.map((card, i) => (
-            <motion.div
-              key={i}
-              className="absolute flex items-center bg-white"
-              style={{
-                borderRadius: 999,
-                padding: '8px 14px',
-                gap: 10,
-                bottom: card.pos.bottom,
-                left: card.pos.left,
-                zIndex: 10 + i,
-                boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
-              }}
-              animate={{ y: [0, -6, 0] }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                delay: card.delay,
-                ease: 'easeInOut',
-              }}
-            >
-              <div
-                className="flex items-center justify-center text-white font-bold shrink-0"
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: '50%',
-                  background: card.color,
-                  fontSize: 13,
-                }}
-              >
-                {card.initials}
-              </div>
-              <div style={{ lineHeight: 1.3 }}>
-                <p style={{ fontSize: 14, fontWeight: 600, color: '#111827', margin: 0 }}>
-                  {card.name}
-                </p>
-                <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>{card.username}</p>
-              </div>
-            </motion.div>
-          ))}
-
-          <motion.div
-            style={{
-              position: 'absolute',
-              background: '#F3C625',
-              color: '#111827',
-              fontWeight: 700,
-              fontSize: 13,
-              padding: '10px 24px',
-              borderRadius: 999,
-              transform: 'rotate(-35deg)',
-              bottom: 140,
-              right: -12,
-              zIndex: 20,
-              whiteSpace: 'nowrap',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-              userSelect: 'none',
-            }}
-            animate={{ y: [0, -5, 0] }}
-            transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            Increase Appointments
-          </motion.div>
         </motion.div>
 
         {/* RIGHT — Content */}
@@ -308,9 +238,10 @@ export default function BecomeExpert() {
         >
           {/* Heading */}
        <h2
-  className="text-center font-medium text-[#3673FF] mb-5"
+  className="text-center text-[#3673FF] mb-5"
   style={{
     fontFamily: 'Inter, sans-serif',
+    fontWeight: 500,
     fontSize: '43.13px',
     lineHeight: '57.6px',
     letterSpacing: '-1.25px',
@@ -322,11 +253,17 @@ export default function BecomeExpert() {
           {/* Description */}
           <p
             style={{
-              fontSize: 16,
-              lineHeight: 1.75,
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 400,
+              fontSize: 20,
+              lineHeight: '26px',
+              letterSpacing: 0,
               color: '#1E293B',
               marginBottom: 40,
               maxWidth: 860,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              textAlign: 'center',
             }}
           >
             From visibility to secure payments, every feature is designed to help you focus on what you
@@ -334,7 +271,10 @@ export default function BecomeExpert() {
           </p>
 
           {/* 2-column checklist */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5">
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5"
+            style={{ maxWidth: 720, marginLeft: 'auto', marginRight: 'auto' }}
+          >
             {[
               'Increase Visibility',
               'Receive Secure Payments',

@@ -154,8 +154,8 @@ export default function ContactSection() {
           </div>
 
           {/* Response Time + decorative image */}
-          <div className="flex flex-col rounded-2xl overflow-hidden">
-            <div className="px-5 py-4" style={{ background: '#284AA3' }}>
+          <div className="flex flex-col overflow-hidden" style={{ borderRadius: 24 }}>
+            <div className="px-5 py-4" style={{ background: '#284AA3', borderRadius: '24px 24px 0 0' }}>
               <p
                 className="font-bold uppercase tracking-[1.5px] mb-2"
                 style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)' }}
@@ -167,12 +167,14 @@ export default function ContactSection() {
                 <span className="font-bold text-[#F3C625]">24 hours</span> on business days.
               </p>
             </div>
-            <img
-              src={contact}
-              alt="Contact"
-              className="w-full object-contain"
-              style={{ maxHeight: 200 }}
-            />
+            <div style={{ background: '#fff', borderRadius: '0 0 24px 24px', overflow: 'hidden' }}>
+              <img
+                src={contact}
+                alt="Contact"
+                className="w-full object-contain"
+                style={{ maxHeight: 300 }}
+              />
+            </div>
           </div>
         </div>
 
